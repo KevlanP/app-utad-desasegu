@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Desarrollo Seguro Colegios{% endblock %}
+
+{% block body %}
+
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ path ('home') }}">Utad</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                <a type="button" class="btn btn-light btn-lg" data-toggle="modal" data-target="#nuevoCole">Nuevo Colegio</a>
+
+                </li>
+            </ul>
+            <div class="float-right">
+                <a type="button" class="btn btn-dark btn-lg" href="logout">LOGOUT</a>
+            </div>
+            <div class="float-right">
+                <a type="button" class="btn btn-dark btn-lg" href="{{ path('cambiocontra') }}">Cambio Password</a>
+            </div>
+        </div>
+    </nav>
+
+    <table class="table table-sm table-dark">
+        <tr>
+            <th scope="row">Id</th>
+            <th scope="row">Nombre</th>
+            <th scope="row">Comunidad Autonoma</th>
+            <td scope="row">Actualizar Colegio</td>
+            <td scope="row">Borrar Colegio</td>
+        </tr>
+        {% for cole in colegios %}
+            <tr>
+                <td>{{ cole.id }}</td>
+                <td>{{ cole.nombre }}</td>
+                <td>{{ cole.comunidadAtonoma }}</td>
+
+                <td>
+                     <form autocomplete="off"  method="POST" class="form-inline" action="{{ path('editarcolegio', { 'slug': cole.id }) }}" >
+                            <div class="form-group">
+                               <input type="text" class="form-control" name="nombreNuevo" placeholder="Editar Nombre Colegio">
+                            </div>
+                            <div class="form-group">
+                               <input type="text" class="form-control" name="comunidadNueva" placeholder="Editar Comunidad Autonoma del Colegio">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                     </form>
+
+                </td>
+                <td>
+                    <li class="list-inline-item">
+                        <a type="button"  style="text-decoration:none" class="btn btn-outline-danger"  href="{{ path('eliminacolegio', { 'slug': cole.id }) }}"><span class="icon-excel-secondary sm d-inline-block"></span>Eliminar Colegio</a>
+                   </li></td>
+            </tr>
+
+        {% endfor %}
+    </table>
+    <div class="container">
+        <div class="modal fade" id="nuevoCole" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                   </div>
+                    <div class="modal-body">
+                        <form autocomplete="off"  method="POST" action="{{ path('nuevocolegio') }}">
+                            <div class="form-group">
+                                <label for="nombreColegio">Nombre del Colegio</label>
+                                <input type="text" class="form-control" name="nombre" placeholder="Nombre Nuevo Colegio">
+                            </div>
+                            <div class="form-group">
+                                <label for="comunidadAutonoma">Comunidad Autonoma</label>
+                                <input type="text" class="form-control" name="comunidad" placeholder="Comunidad Autonoma del Nuevo Colegio">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}
